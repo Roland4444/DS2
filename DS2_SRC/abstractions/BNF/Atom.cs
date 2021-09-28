@@ -1,5 +1,5 @@
 namespace DS2_Abstractions.BNF{
-enum Atom {
+public enum Atom {
     Sequence,
     Number,
     String,

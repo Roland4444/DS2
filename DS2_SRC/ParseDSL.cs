@@ -236,5 +236,29 @@ public class ParseDSL{
         var key = input___.Substring(0, index).Replace(" ","");
         return key;
     }
+
+
+    public string removeRolefromStringDSL(string inputDSL, string  RoleName)
+    {
+        var Template = "::"+RoleName+"{";
+        var Index = inputDSL.IndexOf(Template);
+        if (Index<0)
+            return inputDSL;
+        var OutPut = new StringBuilder();
+        OutPut.Append(inputDSL.Substring(0, Index));
+        var RemainingString = inputDSL.Substring(Index);
+        var Index2 = RemainingString.IndexOf("}");
+        OutPut.Append(RemainingString.Substring(Index2));
+        return OutPut.ToString().Replace("=>},","=>").Replace(",}.","." ).Replace("},},::", "},::");
+    }
+
+    public string getRawDSLForRole(string inputDSL, string RoleName){
+        var index = prepare(inputDSL).IndexOf(string.Format(@"""::{0}""", RoleName))+3+RoleName.Length;
+        var str = prepare(inputDSL).Substring(index);
+        var index2 = str.IndexOf("},::");
+        if (index2<0)
+            index2  = str.IndexOf("}.");
+        return str.Substring(0,index2);
+    }
 }
 

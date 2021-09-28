@@ -8,5 +8,8 @@ public class Role{
         param = parser.Atom(params__);
     }
 
+    public string toString(){
+        return Name;
+    }
     
 }

@@ -1,5 +1,5 @@
 namespace DS2_Abstractions.BNF{
-enum Expression {
+public enum Expression {
     One,
     Many,
     Empty

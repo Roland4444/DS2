@@ -1,6 +1,6 @@
 
 namespace DS2_Abstractions{
-class KeyValue{
+public class KeyValue{
     public KeyValue(String Key, object Value){
         this.Key = Key;
         this.Value = Value;

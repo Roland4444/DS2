@@ -1,0 +1,16 @@
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/SharpR
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/SharpR.deps.json
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/SharpR.runtimeconfig.json
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/SharpR.dll
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/ref/SharpR.dll
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/bin/Debug/net6.0/SharpR.pdb
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.GlobalUsings.g.cs
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.csproj.AssemblyReference.cache
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.GeneratedMSBuildEditorConfig.editorconfig
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.AssemblyInfoInputs.cache
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.AssemblyInfo.cs
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.csproj.CoreCompileInputs.cache
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.dll
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/ref/SharpR.dll
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.pdb
+/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/Debug/net6.0/SharpR.genruntimeconfig.cache

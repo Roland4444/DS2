@@ -1,0 +1,65 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "net6.0": []
+  },
+  "packageFolders": {
+    "/home/romanx/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/SharpR.csproj",
+      "projectName": "SharpR",
+      "projectPath": "/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/SharpR.csproj",
+      "packagesPath": "/home/romanx/.nuget/packages/",
+      "outputPath": "/home/romanx/Documents/dotnet/Odin_/DS2/SharpR/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/romanx/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/romanx/DOTNET/dotnet-sdk-6.0.100-rc.1.21463.6-linux-x64/sdk/6.0.100-rc.1.21463.6/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
