@@ -1,16 +1,17 @@
 using Xunit;
-using DS2_SRC;
 using System;
 namespace DS2_TEST;
 
 public class UnitTest1
 {
+
+
     [Fact]
-    public void Test1()
+    public void TestChecker()
     {
-        var Class1 = new FirstClass();
-        int res = Class1.summ(5,7);
-        Assert.Equal(12, res );
+        var Checker = new Checker();        
+        Assert.Equal(true, Checker.isnumber("44") );
+        Assert.Equal(false, Checker.isnumber("jfkjgbjfkjbgfb") );
         
     }
 }

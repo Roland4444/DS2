@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS2_SRC", "DS2_SRC\DS2_SRC.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS2_TEST", "DS2_TEST\DS2_TEST.csproj", "{1A904573-8A1C-46AD-864E-DDAA2F41C159}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpR", "SharpR\SharpR.csproj", "{420D5ABB-156A-467C-B818-463A43A95D74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{1A904573-8A1C-46AD-864E-DDAA2F41C159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A904573-8A1C-46AD-864E-DDAA2F41C159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A904573-8A1C-46AD-864E-DDAA2F41C159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{420D5ABB-156A-467C-B818-463A43A95D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420D5ABB-156A-467C-B818-463A43A95D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420D5ABB-156A-467C-B818-463A43A95D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420D5ABB-156A-467C-B818-463A43A95D74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
