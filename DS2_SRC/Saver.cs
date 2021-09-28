@@ -1,6 +1,8 @@
 
 using System.IO;
-public static class Saver{
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
+public class Saver{
     public static byte[] savedToBLOB(object input)
     {
         if(input == null)
@@ -15,7 +17,7 @@ public static class Saver{
 
     public static void write(byte[] data, string filename) 
     {
-        WriteAllBytes (filename, data);
+        File.WriteAllBytes (filename, data);
     }
 
     public static byte[] readBytes(string filename)

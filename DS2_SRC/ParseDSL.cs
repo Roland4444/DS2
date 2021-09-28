@@ -3,6 +3,7 @@ using DS2_Abstractions;
 using System.Collections.Generic;
 using System.Text;
 using DS2_Abstractions.BNF;
+[Serializable]
 public class ParseDSL{
    
     public Checker checker =  new Checker();
