@@ -9,8 +9,9 @@ public class DSLRole{
     {
         var roles = new StringBuilder();
         foreach (Role _ in Roles)        
-            roles.Append(string.Format(@""" ::{0},""", _));        
-        string res =string.Format(@""" '{0}' =>{1}""", ObjectName, roles.ToString());
+            roles.Append(string.Format(@" ::{0}!@,", _.toString()).Replace("!","{").Replace("@", "}"));        
+        string res =string.Format(@" '{0}' =>{1}", ObjectName, roles.ToString());
+        Console.WriteLine("TO STRING =>\n"+res.Substring(0, res.Length-1)+".");
         return res.Substring(0, res.Length-1)+".";
     }
     public string ObjectName;

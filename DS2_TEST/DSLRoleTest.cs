@@ -3,6 +3,7 @@ using System;
 using DS2_Abstractions;
 using System.Collections;
 using System.Collections.Generic;
+using ExtensionMethods;
 namespace DS2_TEST;
 
 public class DSLRoleTest
@@ -30,6 +31,13 @@ public class DSLRoleTest
          var dsl = new DSLRole("requests", (List<Role>)Roles);
          Assert.NotNull( dsl.toString());
          Console.WriteLine(dsl.toString());
+     }
+
+     [Fact]
+     public void testextensions(){
+         string r = "substring".sbstr(2,4);
+         Assert.Equal("bs", r);
+
      }
     
     [Fact]

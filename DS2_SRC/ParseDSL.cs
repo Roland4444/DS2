@@ -3,21 +3,23 @@ using DS2_Abstractions;
 using System.Collections.Generic;
 using System.Text;
 using DS2_Abstractions.BNF;
+using ExtensionMethods;
+
 [Serializable]
 public class ParseDSL{
    
     public Checker checker =  new Checker();
     public  DSLRole getDSLRulesfromString(string input) {
-        var objectName = input.Substring(input.IndexOf("'")+1, input.LastIndexOf("'"));
-        Console.WriteLine($"Loading rules for object <{objectName}>");
+        var objectName = input.sbstr(input.IndexOf("'")+1, input.LastIndexOf("'"));
+        Console.WriteLine(string.Format(@"Loading rules for object <{0}>", objectName));
         return new DSLRole(objectName, parseRoles(input));
     }
     public Role parseRole(string input) {
         if (input.IndexOf("{") == -1) return null;
-        var rolename = input.Substring(input.IndexOf("::")+2, input.IndexOf("{"));
+        var rolename = input.sbstr(input.IndexOf("::")+2, input.IndexOf("{"));
         string params___ = "";
         if (input.IndexOf("{")<input.IndexOf("}")-2)
-            params___ = input.Substring(input.IndexOf("{")+1, input.IndexOf("}")); 
+            params___ = input.sbstr(input.IndexOf("{")+1, input.IndexOf("}")-input.IndexOf("{")+1); 
         else params___="";
         if ((rolename.Length == 0) || (rolename ==null)) return null;
         return new Role(rolename, params___, this);
@@ -29,7 +31,7 @@ public class ParseDSL{
         var role = parseRole(initialString);
         while (role != null){
             result.Add(role);
-            initialString = initialString.Substring(initialString.IndexOf("}")+1);
+            initialString = initialString.sbstr(initialString.IndexOf("}")+1);
             role  = parseRole(initialString);
         };
         return result;
@@ -38,7 +40,7 @@ public class ParseDSL{
     public string ToSequence(string input__){
         var input = prepare(input__);
         switch (getType(input)){            
-            case DS2_Abstractions.BNF.Atom.Tupple: return input.Substring(1, input.Length-1);
+            case DS2_Abstractions.BNF.Atom.Tupple: return input.sbstr(1, input.Length-1);
         };
         return input;
     }
@@ -74,62 +76,71 @@ public class ParseDSL{
     }
 
     public string Head(string input) {
+        Console.WriteLine("INTO HEAD");
+        Console.WriteLine("input"+input);
         var p = getnumberopencolon(input);
+        Console.WriteLine("P::"+p);
         if (p>0)
-            return input.Substring(0, p);
+            return input.sbstr(0, p);
         return input;
     }
 
     public string Tail(string input){
+        Console.WriteLine("INTO Tail");
+        Console.WriteLine("input\n"+Tail);
         var p =getnumberopencolon(input);
-        if (p>0)
-            return input.Substring(p+1, input.Length);
+        if (p>0){
+
+            return input.sbstr(p+1, input.Length);
+        }
         return "";
     }
 
     public int getnumberopencolon(string input){
-        Console.WriteLine(input);
+      ///  Console.WriteLine(input);
+        var colonbuf = loadcolons(input);
         bool mustret = false;
         int retvalue=0;
-        var colonbuf = loadcolons(input);
         if (colonbuf.Capacity<=0)
             return -1;
-        colonbuf.ForEach(delegate(int a)
-        {
-            var index = a;
+
+        for (int i=0; i<colonbuf.Count; i++){
+            int a = colonbuf[i];
+             var index = a;
             var closetupple = 0;
             var opentupple = 0;
             while (index>=0){
-                if (input[index]==']'){
-                    closetupple++;
-                }
-                if (input[index]=='['){
-                    opentupple++;
-                }
+                if (input[index]==']')
+                    closetupple++;          
+                if (input[index]=='[')
+                    opentupple++;             
                 index--;
             }
-            if (opentupple==closetupple){
-                mustret=true;
-                retvalue = a;            
-        }
-        });
-        if (mustret)
-            return retvalue;
+            if (opentupple==closetupple)
+                return a;  
+        }    
+       
         return -1;
     }
-    public List<int> loadcolons(string input) {
-        var colonbuff = new List<int>();
-        for (int i=0;i<=input.Length-1; i++)
-            if (input[i]==',')
-                colonbuff.Add(i);
-        return colonbuff;
-    }
-    public bool opencolon(string input){
-        Console.WriteLine(input);
+
+
+
+
+        public List<int> loadcolons(string input)
+        {
+            var colonbuff = new List<int>();
+            for (int i= 0; i<=input.Length-1; i++)
+                if (input[i]==',')
+                    colonbuff.Add(i);
+            return colonbuff;
+        }
+
+
+    public bool opencolon(string input)
+    {
         bool mustret =false;
-        bool retvalue=false;
         var colonbuf = loadcolons(input);
-        if (colonbuf.Capacity<=0)
+        if (colonbuf.Count<=0)
             return false;
         colonbuf.ForEach(delegate(int a)
         {    
@@ -137,35 +148,35 @@ public class ParseDSL{
             var closetupple = 0;
             var opentupple = 0;
             while (index>=0){
-                if (input[index]==']'){
+                if (input[index]==']')
                     closetupple++;
-                }
-                if (input[index]=='['){
-                    opentupple++;
-                }
+                if (input[index]=='[')
+                    opentupple++;                
                 index--;
             }
-            if (opentupple==closetupple){
+             if (opentupple==closetupple){
                  mustret = true;
-                 retvalue= true;
+                 
             }
-                
         });
         if (mustret)
-            return retvalue;
-
+            return mustret;
         return false;
+
     }
 
 
-    public List<String> getList(string input) {
-        var lst = new List<String>();
+    public List<string> getList(string input) {
+        Console.WriteLine("input::"+input);
+        var lst = new List<string>();
         var head = Head(input);
         var tail = Tail(input);
+        Console.WriteLine(string.Format(@"HEAD::{0}  TAIL::{1}", head, tail));
         while ((head!="") ){
             lst.Add(head);
             head = Head(tail);
             tail = Tail(tail);
+            Console.WriteLine(string.Format(@"HEAD::{0}  TAIL::{1}", head, tail));
         }
         return lst;
     }
@@ -209,7 +220,7 @@ public class ParseDSL{
     
     public string getValue(string input){
         var index = input.IndexOf(":");
-        return prepare(input.Substring(index+1, input.Length));
+        return prepare(input.sbstr(index+1, input.Length));
     }
 
     public string prepare(string input__){
@@ -233,7 +244,7 @@ public class ParseDSL{
 
     public string getKey(string input___){
         var index = input___.IndexOf(":");
-        var key = input___.Substring(0, index).Replace(" ","");
+        var key = input___.sbstr(0, index).Replace(" ","");
         return key;
     }
 
@@ -245,20 +256,20 @@ public class ParseDSL{
         if (Index<0)
             return inputDSL;
         var OutPut = new StringBuilder();
-        OutPut.Append(inputDSL.Substring(0, Index));
-        var RemainingString = inputDSL.Substring(Index);
+        OutPut.Append(inputDSL.sbstr(0, Index));
+        var RemainingString = inputDSL.sbstr(Index);
         var Index2 = RemainingString.IndexOf("}");
-        OutPut.Append(RemainingString.Substring(Index2));
+        OutPut.Append(RemainingString.sbstr(Index2));
         return OutPut.ToString().Replace("=>},","=>").Replace(",}.","." ).Replace("},},::", "},::");
     }
 
     public string getRawDSLForRole(string inputDSL, string RoleName){
-        var index = prepare(inputDSL).IndexOf(string.Format(@"""::{0}""", RoleName))+3+RoleName.Length;
-        var str = prepare(inputDSL).Substring(index);
+        var index = prepare(inputDSL).IndexOf(string.Format(@"::{0}", RoleName))+3+RoleName.Length;
+        var str = prepare(inputDSL).sbstr(index);
         var index2 = str.IndexOf("},::");
         if (index2<0)
             index2  = str.IndexOf("}.");
-        return str.Substring(0,index2);
+        return str.sbstr(0,index2);
     }
 }
 

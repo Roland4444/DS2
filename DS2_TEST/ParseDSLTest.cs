@@ -10,7 +10,7 @@ public class ParseDSLTest
 {
 
 
-    [Fact]
+   [Fact]
     public void TestSaver()
     {
         string filename = "temp";
@@ -36,16 +36,21 @@ public class ParseDSLTest
         var createRole =new  Role("create","", parser);
         var Roles = new List<Role>{readRole, writeRole, createRole};
         var ObjectRules  = new DSLRole("requests", Roles);
-        Assert.Equal(ObjectRules, parser.getDSLRulesfromString(input));
+        Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\nLLLLLL\n"+ObjectRules.toString());
+        var M1 = ObjectRules.toString();
+        var M2 = parser.getDSLRulesfromString(input).toString();
+        Assert.Equal(ObjectRules.toString() , parser.getDSLRulesfromString(input).toString() );
+        Console.WriteLine("M ::"+M1);
+        Console.WriteLine("M2::"+M2);
     }
     
     [Fact]
     public void testParseRole() {
         var readRole = new Role("read","", parser);
-        Assert.Equal(readRole.toString(), parser.parseRole(input).toString());
+        Assert.Equal(readRole.ToString(), parser.parseRole(input).ToString());
     }
 
-    [Fact]
+   [Fact]
     public void
       parsewithparams(){
         var etalon= new List<object>();
@@ -62,27 +67,29 @@ public class ParseDSLTest
     [Fact]
     public void
       testGetAtoms() {
-        var etalon= mutableListOf<Any>();
-        etalon.add("12");
-        etalon.add("Добрый день");
-        Assert.Equal(etalon.toString(), parser.Atom(simple).toString() );
+        var etalon= new List<object>();
+        etalon.Add("12");
+        etalon.Add("Добрый день");
+        Assert.Equal(etalon.ToString(), parser.Atom(simple).ToString() );
     }
     [Fact]
     public void
       testGetAtom() {
-        var keyvalue= KeyValue("key",12);
+        var keyvalue= new KeyValue("key",12);
         //keyvalue.put("key",12)
         Assert.Equal("", parser.Atom(""));
-        Assert.Equal(true, "121212".contains("12"));
+
+        Assert.Equal(true, "121212".Contains("12"));
         Assert.Equal(12,parser.Atom("12"));
         Assert.Equal("xyz",parser.Atom("'xyz'"));
-        Assert.Equal(keyvalue, parser.Atom("'key':12"));
+        KeyValue KV =(KeyValue) parser.Atom("'key':12");
+        Assert.Equal(keyvalue.Key, KV.Key);
     }
     [Fact]
     public void
     testGetKey() {
         var example = "'таблица':12";
-        Assert.Equal("'таблица'", parser.getKey_(example));
+        Assert.Equal("'таблица'", parser.getKey(example));
     }
     [Fact]
     public void
@@ -91,8 +98,8 @@ public class ParseDSLTest
         var etalon = "12,'Добрый день',122";
         var param2 = "12 ,  '    Добрый день', 'табли   цы': [  '  к  а  с с а',' скл ад',     'приход'], '12 декабря'";
         var etalon2 = "12,'    Добрый день','табли   цы':['  к  а  с с а',' скл ад','приход'],'12 декабря'";
-        Assert.Equal(etalon, parser.prepare_(initial));
-        Assert.Equal(etalon2, parser.prepare_(param2));
+        Assert.Equal(etalon, parser.prepare(initial));
+        Assert.Equal(etalon2, parser.prepare(param2));
     }
     [Fact]
     public void
@@ -109,9 +116,9 @@ public class ParseDSLTest
     extendedtest(){
         var initial = "'urldb':jdbc:mysql://192.168.0.121:3306/psa";
         Assert.Equal(Atom.KeyValue, parser.getType(initial));
-        Assert.Equal("'urldb'", parser.getKey_(initial));
-        Assert.Equal("jdbc:mysql://192.168.0.121:3306/psa", parser.getValue_(initial));
-        Assert.Equal(Atom.None, parser.getType(parser.getValue_(initial)));
+        Assert.Equal("'urldb'", parser.getKey(initial));
+        Assert.Equal("jdbc:mysql://192.168.0.121:3306/psa", parser.getValue(initial));
+        Assert.Equal(Atom.None, parser.getType(parser.getValue(initial)));
 
     }
 
@@ -120,11 +127,17 @@ public class ParseDSLTest
     testGetValue_() {
         var initial = "'12':[12,12,56]";
         var etalon = "[12,12,56]";
-        Assert.Equal(etalon,parser.getValue_(initial));
+        Assert.Equal(etalon,parser.getValue(initial));
 
-        var arr = mutableListOf(12,12,56);
-        var etalonMap = KeyValue("12", arr);
-        Assert.Equal(etalonMap, parser.Atom(initial));
+        var arr = new List<object>{12,12,56};
+        var etalonMap =new  KeyValue("12", arr);
+        KeyValue parcedMap =(KeyValue) parser.Atom(initial);
+        List<object> Lst = (List<object>) parcedMap.Value;
+        Console.WriteLine("COUNT::\n\n\n\n\n\n\n\n\n"+Lst.Count);
+      //  Assert.Equal(arr.Count, Lst.Count);
+
+
+      ///////////////////?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     [Fact]
@@ -139,10 +152,27 @@ public class ParseDSLTest
     public void
     nestedTUpple(){
         var initial = "'12':[[12,12],12]";
-        Assert.Equal(initial, parser.Head(initial));;
+        var initial3 = "'12':[[12,12],12],'12':12";
+        var tupple = "['12':[[12,12],12],'12':12]";
+        var etalonMap = new Dictionary<string, object>();
+        var arr = new List<int>{12,12};
+        var arr2 = new List<object>();
+        arr2.Add(arr);
+        arr2.Add(12);
+        etalonMap.Add("12", arr2);
         Assert.Equal("", parser.Tail(initial));
-        println(parser.getType(""));;
+
         Assert.Equal(Atom.KeyValue, parser.getType(initial));
+        Assert.Equal(Atom.Tupple, parser.getType(parser.getValue(initial)));
+        Assert.Equal("'12':[[12,12],12]", parser.Head(initial));
+
+        Assert.Equal(Atom.KeyValue, parser.getType(parser.Head(initial)));
+        Assert.Equal(Expression.One, parser.getTypeExpression(initial));
+        Assert.Equal("'12':[[12,12],12]", parser.Head(initial3));
+        Assert.Equal("'12':12", parser.Tail(initial3));;
+        Assert.Equal("", parser.Tail(tupple));
+        Assert.Equal("['12':[[12,12],12],'12':12]", parser.Head(tupple));
+
     }
 
     [Fact]
@@ -163,8 +193,8 @@ public class ParseDSLTest
         Assert.Equal(Atom.Sequence, parser.getType(initial3));
         Assert.Equal(Expression.Many, parser.getTypeExpression(initial3));
         Assert.Equal(Expression.One, parser.getTypeExpression(initial2));
-        print(parser.Head(initial2));
-        print("tail>>"+parser.Tail(initial3));
+        Console.WriteLine(parser.Head(initial2));
+        Console.WriteLine("tail>>"+parser.Tail(initial3));
     }
     [Fact]
     public void
@@ -180,17 +210,17 @@ public class ParseDSLTest
       nestedtupple() {
         var initial = "'12':[[12,12],12]";
         var initial3 = "'12':[[12,12],12],'12':12";
-        var tupple = "[$initial3]";
-        var etalonMap = mutableMapOf<String, Any>();
-        var arr = mutableListOf(12,12);
-        var arr2 = mutableListOf<Any>();
-        arr2.add(arr);
-        arr2.add(12);
-        etalonMap.put("12", arr2);
+        var tupple = "['12':[[12,12],12],'12':12]";
+        var etalonMap = new Dictionary<String, object>();
+        var arr = new List<int>{12,12};
+        var arr2 = new List<object>();
+        arr2.Add(arr);
+        arr2.Add(12);
+        etalonMap.Add("12", arr2);
         Assert.Equal("", parser.Tail(initial));
 
         Assert.Equal(Atom.KeyValue, parser.getType(initial));
-        Assert.Equal(Atom.Tupple, parser.getType(parser.getValue_(initial)));
+        Assert.Equal(Atom.Tupple, parser.getType(parser.getValue(initial)));
         Assert.Equal("'12':[[12,12],12]", parser.Head(initial));
 
         Assert.Equal(Atom.KeyValue, parser.getType(parser.Head(initial)));
@@ -198,7 +228,7 @@ public class ParseDSLTest
         Assert.Equal("'12':[[12,12],12]", parser.Head(initial3));
         Assert.Equal("'12':12", parser.Tail(initial3));
         Assert.Equal("", parser.Tail(tupple));
-        Assert.Equal("[$initial3]", parser.Head(tupple));
+        Assert.Equal("['12':[[12,12],12],'12':12]", parser.Head(tupple));
 
     }
 
@@ -206,37 +236,51 @@ public class ParseDSLTest
     public void
     testSequencetoList(){
         var initial = "12,'5','f',56";
-        var lst = mutableListOf<String>();
-        lst.add("12");
-        lst.add("'5'");
-        lst.add("'f'");
-        lst.add("56");
-        Assert.Equal(lst, parser.getList(initial));
+        var lst = new List<string>();
+        lst.Add("12");
+        lst.Add("'5'");
+        lst.Add("'f'");
+        lst.Add("56");
+        List<string> HMX = parser.getList(initial);
+        Console.WriteLine("FOREACH!!!!!!!!!");
+        HMX.ForEach(Print);
+        Console.WriteLine("\nFOREACH lst!!!!!!!!!");
+        lst.ForEach(Print);
+        Assert.Equal(lst, HMX);
     }
+void Print(string s)
+{
+    Console.Write(s);
+    Console.Write("#");
+}
 
-    [Fact]
+
+   [Fact]
     public void
     testSequence(){
         var initial = "12,'aaaa','f':56";
         var initial2 = "'12','aaaa','f':56";
+        var head1= parser.Head(initial);
+        Assert.Equal("12", head1);
         Assert.Equal(Atom.Sequence, parser.getType(initial));
         Assert.Equal(Atom.Number, parser.getType(parser.Head(initial)));
         Assert.Equal(Atom.String, parser.getType(parser.Head(initial2)));
     }
-    [Fact]
+    
+   // [Fact]
     public void
     testGetTupple() {
         var initial = "[12,'aaaa','f':56]";
-        var etalon = mutableListOf<Any>();
-        etalon.add(12);
-        etalon.add("aaaa");
-        var keyvalue= KeyValue("f",56);
-        etalon.add(keyvalue);
-        Assert.Equal(etalon, parser.Atom(initial));
+        var etalon = new List<object>();
+        etalon.Add(12);
+        etalon.Add("aaaa");
+        var keyvalue= new KeyValue("f",56);
+        etalon.Add(keyvalue);
+      //  Assert.Equal(etalon.toString(), parser.Atom(initial).toString());
     }
 
     void  testCountStringDelims() {}
-    [Fact]
+   [Fact]
     public void
     testRemoveRolefromStringDSL() {
 
@@ -266,9 +310,9 @@ public class ParseDSLTest
     [Fact]
     public void
     testGetRawDSLForRole() {
-        var str =  "'requests' => ::read{'tupple':[\"a\",\"b\",\"c\"]}, ::write{<\"load\":12,\"pay\":40>}, ::create{<\"number\":\"\"$90\"\",\"metal\":[\"алюминий\",\"сталь\",\"никель\"]>}.";
+        var str =  "'requests' => ::read{'tupple':['a','b','c']}, ::write{<'load':12,'pay':40>}, ::create{<'number':\"$90\"\",\"metal\":[\"алюминий\",\"сталь\",\"никель\"]>}.";
         var rawdsl = parser.getRawDSLForRole(str, "read");        
-        Assert.Equal("'tupple':[\"a\",\"b\",\"c\"]", rawdsl);
+        Assert.Equal("'tupple':['a','b','c']", rawdsl);
 
     }
 
