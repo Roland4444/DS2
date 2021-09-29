@@ -9,24 +9,28 @@ using ExtensionMethods;
 public class ParseDSL{
    
     public Checker checker =  new Checker();
-    public  DSLRole getDSLRulesfromString(string input) {
+    public  DSLRole getDSLRulesfromString(string input) 
+    {
         var objectName = input.sbstr(input.IndexOf("'")+1, input.LastIndexOf("'"));
         Console.WriteLine(string.Format(@"Loading rules for object <{0}>", objectName));
         return new DSLRole(objectName, parseRoles(input));
     }
-    public Role parseRole(string input) {
-        if (input.IndexOf("{") == -1) return null;
-        var rolename = input.sbstr(input.IndexOf("::")+2, input.IndexOf("{"));
-        string params___ = "";
-        if (input.IndexOf("{")<input.IndexOf("}")-2)
-            params___ = input.sbstr(input.IndexOf("{")+1, input.IndexOf("}")-input.IndexOf("{")+1); 
-        else params___="";
-        if ((rolename.Length == 0) || (rolename ==null)) return null;
-        return new Role(rolename, params___, this);
+    public Role parseRole(string input) 
+    {
+        if (input.IndexOf("{") == -1) 
+            return null;
+        var rolename= input.sbstr(input.IndexOf("::")+2, input.IndexOf("{"));
+        var param____s="";
+        if (input.IndexOf("{")<input.IndexOf("}")-1)
+            param____s = input.sbstr(input.IndexOf("{") + 1, input.IndexOf("}"));
+        else param____s="";
+        if ((rolename.Length == 0) || (rolename ==null)) 
+            return null;
+        return new Role(rolename, param____s, this);
     }
     public List<Role> parseRoles(string input__) {
         var input = prepare(input__);
-        List<Role> result  = new List<Role>();
+        List<Role> result  =new List<Role>();
         var initialString = input;
         var role = parseRole(initialString);
         while (role != null){

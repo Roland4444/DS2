@@ -65,6 +65,19 @@ public class ParseDSLTest
         Assert.Equal(etalon.ToString(), parser.Atom(param).ToString());
     }
     [Fact]
+    public void 
+    testdelegate(){ 
+        Action anonymousMethod = delegate() {
+            Console.WriteLine(":");
+             
+        };
+        anonymousMethod();
+     //   Assert.Equal("FUCK YOU", anonymousMethod());
+        Console.WriteLine("TYPEEEE\n\n\n\n\n"+anonymousMethod.GetType ());
+
+    }
+
+    [Fact]
     public void
       testGetAtoms() {
         var etalon= new List<object>();
